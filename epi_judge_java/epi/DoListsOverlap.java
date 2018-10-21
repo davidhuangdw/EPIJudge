@@ -10,8 +10,36 @@ public class DoListsOverlap {
   public static ListNode<Integer> overlappingLists(ListNode<Integer> l0,
                                                    ListNode<Integer> l1) {
     // TODO - you fill in here.
-    return null;
+
+    int n0 = listLen(l0);
+    int n1 = listLen(l1);
+
+    if(n1 < n0){
+      ListNode<Integer> tmp = l0;
+      l0 = l1;
+      l1 = tmp;
+    }
+
+    for(int i=0; i<Math.abs(n1 - n0); i++)
+      l1 = l1.next;
+
+    while(l0 != null && l1 != null && l0 != l1){
+      l0 = l0.next;
+      l1 = l1.next;
+    }
+
+    return l0;
   }
+
+  private static int listLen(ListNode<Integer> hd){
+    int n=0;
+    while(hd != null){
+      n++;
+      hd = hd.next;
+    }
+    return n;
+  }
+
   @EpiTest(testDataFile = "do_lists_overlap.tsv")
   public static void
   overlappingListsWrapper(TimedExecutor executor, ListNode<Integer> l0,

@@ -5,8 +5,16 @@ import java.util.List;
 public class IntAsArrayIncrement {
   @EpiTest(testDataFile = "int_as_array_increment.tsv")
   public static List<Integer> plusOne(List<Integer> A) {
-    // TODO - you fill in here.
-    return null;
+    int ca=1;
+    for(int i=A.size()-1; i>=0 && ca>0; i--){
+      int t = (A.get(i)+ca)/10;
+      A.set(i, (A.get(i)+ca)%10);
+      ca = t;
+    }
+    if(ca > 0)
+      A.add(0, ca);
+
+    return A;
   }
 
   public static void main(String[] args) {

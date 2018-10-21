@@ -9,7 +9,10 @@ import java.util.List;
 public class EvenOddArray {
 
   public static void evenOdd(List<Integer> A) {
-    // TODO - you fill in here.
+    int last=0;
+    for(int i=0; i<A.size(); i++)
+      if(A.get(i)%2 == 0)
+        Collections.swap(A, last++, i);
     return;
   }
   @EpiTest(testDataFile = "even_odd_array.tsv")

@@ -4,8 +4,17 @@ import epi.test_framework.GenericTest;
 public class IsNumberPalindromic {
   @EpiTest(testDataFile = "is_number_palindromic.tsv")
   public static boolean isPalindromeNumber(int x) {
-    // TODO - you fill in here.
-    return true;
+    if(x<0) return false;
+    return reverse(x) == x;
+  }
+
+  public static long reverse(int x){
+    long res = 0;
+    while(x>0){
+      res = res*10 + x%10;
+      x/=10;
+    }
+    return res;
   }
 
   public static void main(String[] args) {

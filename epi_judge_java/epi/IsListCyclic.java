@@ -7,7 +7,34 @@ public class IsListCyclic {
 
   public static ListNode<Integer> hasCycle(ListNode<Integer> head) {
     // TODO - you fill in here.
-    return null;
+
+    if(head == null)
+      return null;
+    ListNode<Integer> l = head;
+    ListNode<Integer> r = head.next;
+    while(r != null){
+      if(l == r) break;
+      l = l.next;
+      r = r.next;
+      if(r != null) r=r.next;
+    }
+
+    if(r==null) return null;
+
+    int len = 0;
+    do{
+      len ++;
+      r = r.next;
+    } while(l != r);
+
+    l = r = head;
+    while(len-- > 0) r=r.next;
+    while(l != r){
+      l = l.next;
+      r = r.next;
+    }
+
+    return l;
   }
   @EpiTest(testDataFile = "is_list_cyclic.tsv")
   public static void HasCycleWrapper(TimedExecutor executor,

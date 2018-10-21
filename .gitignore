@@ -11,6 +11,10 @@ __pycache__/
 
 # Visual Studio 2017 files
 .vs
+/epi_judge_java/out
+/epi_judge_java/epi/out
+/epi_judge_java/*.iml
+/epi_judge_java/*/*.iml
 /epi_judge_cpp/vs
 /epi_judge_cpp_solutions/vs
 /epi_judge_cpp/Release

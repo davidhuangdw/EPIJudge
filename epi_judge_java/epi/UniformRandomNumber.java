@@ -14,8 +14,17 @@ public class UniformRandomNumber {
   }
 
   public static int uniformRandom(int lowerBound, int upperBound) {
-    // TODO - you fill in here.
-    return 0;
+    int off_range = upperBound - lowerBound;
+
+    int off = 0;
+    do {
+      off = 0;
+      for (int i = 0; (1 << i) - 1 < off_range; i++) {
+        off = (off << 1) + zeroOneRandom();
+      }
+    } while(off > off_range);
+
+    return lowerBound+off;
   }
   private static boolean uniformRandomRunner(TimedExecutor executor,
                                              int lowerBound, int upperBound)

@@ -8,13 +8,33 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+
 public class OnlineSampling {
 
   // Assumption: there are at least k elements in the stream.
   public static List<Integer> onlineRandomSample(Iterator<Integer> stream,
                                                  int k) {
     // TODO - you fill in here.
-    return Collections.emptyList();
+
+    List<Integer> sub = new ArrayList<Integer>();
+    for(int i=0; i<k; i++)
+      sub.add(stream.next());
+
+    Random gen = new Random();
+    int n=k;
+    while(stream.hasNext()){
+      int v = stream.next();
+      n++;
+
+//      if(gen.nextInt(n) < k)
+//        sub.set(gen.nextInt(k), v);
+      int i = gen.nextInt(n);
+      if(i < k)
+        sub.set(i, v);
+    }
+
+    return sub;
   }
   private static boolean onlineRandomSampleRunner(TimedExecutor executor,
                                                   List<Integer> A, int k)

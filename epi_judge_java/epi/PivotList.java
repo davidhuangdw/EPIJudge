@@ -10,7 +10,30 @@ public class PivotList {
 
   public static ListNode<Integer> listPivoting(ListNode<Integer> l, int x) {
     // TODO - you fill in here.
-    return null;
+
+    ListNode<Integer> lf=new ListNode<Integer>(0, null), tmp, pl, pm, pr;
+    ListNode<Integer> md=new ListNode<Integer>(0, null);
+    ListNode<Integer> rt=new ListNode<Integer>(0, null);
+
+    pl=lf; pm=md; pr=rt;
+    while(l != null){
+      if(l.data < x){
+        pl.next = l;
+        pl = l;
+      }else if(l.data == x){
+        pm.next = l;
+        pm = l;
+      }else{
+        pr.next = l;
+        pr = l;
+      }
+      l = l.next;
+    }
+    pr.next = null;
+    pm.next = rt.next;
+    pl.next = md.next;
+
+    return lf.next;
   }
   public static List<Integer> linkedToList(ListNode<Integer> l) {
     List<Integer> v = new ArrayList<>();
