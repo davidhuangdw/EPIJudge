@@ -9,8 +9,28 @@ public class LowestCommonAncestorWithParent {
   public static BinaryTree<Integer> LCA(BinaryTree<Integer> node0,
                                         BinaryTree<Integer> node1) {
     // TODO - you fill in here.
-    return null;
+
+    int h0 = height(node0);
+    int h1 = height(node1);
+    if(h0 > h1) node0 = stepUp(node0, h0-h1);
+    else if(h0 < h1) node1 = stepUp(node1, h1-h0);
+
+    while(node0 != null && node1 != null && node0 != node1){
+      node0 = node0.parent;
+      node1 = node1.parent;
+    }
+    return node0;
   }
+
+  private static int height(BinaryTree<Integer> node){
+    return node == null ? 0 : height(node.parent)+1;
+  }
+  private static BinaryTree<Integer> stepUp(BinaryTree<Integer> node, int k){
+    for(int i=0; i<k; i++)
+      node = node.parent;
+    return node;
+  }
+
   @EpiTest(testDataFile = "lowest_common_ancestor.tsv")
   public static int lcaWrapper(TimedExecutor executor, BinaryTree<Integer> tree,
                                Integer key0, Integer key1) throws Exception {

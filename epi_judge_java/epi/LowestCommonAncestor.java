@@ -9,7 +9,22 @@ public class LowestCommonAncestor {
                                             BinaryTreeNode<Integer> node0,
                                             BinaryTreeNode<Integer> node1) {
     // TODO - you fill in here.
-    return null;
+    if(tree == null) return null;
+    BinaryTreeNode<Integer> tmp;
+    tmp = LCA(tree.left, node0, node1);
+    if(tmp != null) return tmp;
+    tmp = LCA(tree.right, node0, node1);
+    if(tmp != null) return tmp;
+    if(find(tree, node0) && find(tree, node1))
+      return tree;
+    else
+      return null;
+  }
+
+  private static boolean find(BinaryTreeNode<Integer> root, BinaryTreeNode<Integer> node){
+    if(root == null) return false;
+    if(root == node) return true;
+    return find(root.left, node) || find(root.right, node);
   }
   @EpiTest(testDataFile = "lowest_common_ancestor.tsv")
   public static int lcaWrapper(TimedExecutor executor,

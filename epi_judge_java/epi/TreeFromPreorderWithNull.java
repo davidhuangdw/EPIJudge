@@ -8,8 +8,18 @@ public class TreeFromPreorderWithNull {
   public static BinaryTreeNode<Integer>
   reconstructPreorder(List<Integer> preorder) {
     // TODO - you fill in here.
-    return null;
+    index = 0;
+    return build(preorder);
   }
+
+  private static BinaryTreeNode<Integer>
+  build(List<Integer> preorder) {
+    Integer v = preorder.get(index++);
+    if(v == null) return null;
+    return new BinaryTreeNode<Integer>(v, build(preorder), build(preorder));
+  }
+  private static int index;
+
   @EpiTest(testDataFile = "tree_from_preorder_with_null.tsv")
   public static BinaryTreeNode<Integer>
   reconstructPreorderWrapper(TimedExecutor executor, List<String> strings)

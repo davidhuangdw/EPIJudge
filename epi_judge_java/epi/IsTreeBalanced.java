@@ -7,7 +7,15 @@ public class IsTreeBalanced {
 
   public static boolean isBalanced(BinaryTreeNode<Integer> tree) {
     // TODO - you fill in here.
-    return true;
+    if(tree == null) return true;
+    if(!(isBalanced(tree.left) && isBalanced(tree.right)))
+      return false;
+    return Math.abs(height(tree.left) - height(tree.right)) <= 1;
+  }
+
+  private static int height(BinaryTreeNode<Integer> tree){
+    if(tree == null) return 0;
+    return Math.max(height(tree.left), height(tree.right))+1;
   }
 
   public static void main(String[] args) {
