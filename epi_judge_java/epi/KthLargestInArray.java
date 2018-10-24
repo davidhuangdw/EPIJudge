@@ -9,7 +9,37 @@ public class KthLargestInArray {
   @EpiTest(testDataFile = "kth_largest_in_array.tsv")
   public static int findKthLargest(int k, List<Integer> A) {
     // TODO - you fill in here.
-    return 0;
+    if(k > A.size()) return -1;
+
+    int l=0, r=A.size()-1;
+    while(r+1-l >= k){
+      int v = A.get(l);
+      int i=l+1, j=r;
+      while(i<=j){
+        while(i<=j && A.get(i)<v)
+          i++;
+        while(i<=j && A.get(j)>=v)
+          j--;
+        if(i<=j)
+          swap(A, i++, j--);
+      }
+      swap(A,l,j);
+
+      int rlen = r+1-j;
+      if(rlen == k) return A.get(j);
+      if(rlen > k) l=j+1;
+      else{
+        k -= rlen;
+        r = j-1;
+      }
+    }
+    return -1;
+  }
+
+  private static void swap(List<Integer> A, int i, int j){
+    int tmp = A.get(i);
+    A.set(i, A.get(j));
+    A.set(j, tmp);
   }
 
   public static void main(String[] args) {

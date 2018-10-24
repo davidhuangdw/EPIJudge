@@ -6,7 +6,19 @@ public class IntSquareRoot {
 
   public static int squareRoot(int k) {
     // TODO - you fill in here.
-    return 0;
+
+    if(k<0) return -1;
+
+    long l=1, r=k;
+    while(l<=r){
+      long m = l+ (r-l)/2;
+      if(m*m <=k)
+        l = m+1;
+      else
+        r = m-1;
+    }
+
+    return (int)l-1;
   }
 
   public static void main(String[] args) {

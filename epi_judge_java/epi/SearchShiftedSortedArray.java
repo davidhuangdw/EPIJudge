@@ -7,7 +7,20 @@ public class SearchShiftedSortedArray {
 
   public static int searchSmallest(List<Integer> A) {
     // TODO - you fill in here.
-    return 0;
+
+    if(A.size() == 0) return -1;
+
+    int l=0, r=A.size()-1;
+    while(l < r){
+      int m = l + (r-l)/2;
+      //l<=m<m+1<=r
+      //keep: l<=min_i<=r
+      if(A.get(m) > A.get(r)) //don't compare to A[l], because l==m might happen
+        l = m+1;
+      else
+        r = m;
+    }
+    return l;
   }
 
   public static void main(String[] args) {

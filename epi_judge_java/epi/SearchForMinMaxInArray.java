@@ -46,7 +46,21 @@ public class SearchForMinMaxInArray {
 
   public static MinMax findMinMax(List<Integer> A) {
     // TODO - you fill in here.
-    return new MinMax(0, 0);
+    int min=Integer.MAX_VALUE, max=Integer.MIN_VALUE;
+    for(int i=0; i+1<A.size(); i+=2){
+      int l = A.get(i), r= A.get(i+1);
+      if(A.get(i) > A.get(i+1)) {
+        l = A.get(i+1); r= A.get(i);
+      }
+      if(l < min) min = l;
+      if(r > max) max = r;
+    }
+    if(A.size() %2 == 1){
+      min = Math.min(min, A.get(A.size()-1));
+      max = Math.max(max, A.get(A.size()-1));
+    }
+
+    return new MinMax(min, max);
   }
 
   public static void main(String[] args) {
