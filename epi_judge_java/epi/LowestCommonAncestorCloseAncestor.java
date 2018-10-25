@@ -4,22 +4,30 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
+
+import java.util.HashSet;
+
 public class LowestCommonAncestorCloseAncestor {
 
   public static BinaryTree<Integer> LCA(BinaryTree<Integer> node0,
                                         BinaryTree<Integer> node1) {
     // TODO - you fill in here.
 
-    int h0 = height(node0);
-    int h1 = height(node1);
-    if(h0 > h1) node0 = stepUp(node0, h0-h1);
-    else if(h0 < h1) node1 = stepUp(node1, h1-h0);
-
-    while(node0 != null && node1 != null && node0 != node1){
-      node0 = node0.parent;
-      node1 = node1.parent;
+    HashSet<BinaryTree<Integer>> hash = new HashSet<BinaryTree<Integer>>();
+    while(node0 != null || node1 != null){
+      if (node0 != null) {
+        if (hash.contains(node0)) return node0;
+        hash.add(node0);
+        node0 = node0.parent;
+      }
+      if (node1 != null) {
+        if (hash.contains(node1)) return node1;
+        hash.add(node1);
+        node1 = node1.parent;
+      }
     }
-    return node0;
+
+    return null;
   }
 
   private static int height(BinaryTree<Integer> node){
