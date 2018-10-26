@@ -4,11 +4,9 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import java.util.*;
+
 public class GroupEqualEntries {
   @EpiUserType(ctorParams = {Integer.class, String.class})
 
@@ -44,6 +42,36 @@ public class GroupEqualEntries {
   }
   public static void groupByAge(List<Person> people) {
     // TODO - you fill in here.
+
+    Map<Integer, Integer> count = new HashMap<Integer, Integer>();
+    List<Integer> ages = new ArrayList<Integer>();
+
+    for(Person p: people){
+      if(!count.containsKey(p.age)){
+        ages.add(p.age);
+        count.put(p.age, 1);
+      }else count.put(p.age, count.get(p.age)+1);
+    }
+    Collections.sort(ages);
+    Map<Integer, Integer> offset = new HashMap<Integer, Integer>();
+    int off = 0;
+    for(int age: ages){
+      offset.put(age, off);
+      off += count.get(age);
+    }
+
+    while(!offset.isEmpty()){
+      int fr = offset.entrySet().iterator().next().getValue();
+      int age = people.get(fr).age;
+      int to = offset.get(age);
+      Collections.swap(people, fr, to);
+      count.put(age, count.get(age)-1);
+      if(count.get(age) == 0)
+        offset.remove(age);
+      else
+        offset.put(age, to+1);
+    }
+
     return;
   }
   private static Map<Person, Integer> buildMultiset(List<Person> people) {

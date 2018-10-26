@@ -3,6 +3,8 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,13 @@ class Team {
   // Checks if team0 can be placed in front of team1.
   public static boolean validPlacementExists(Team team0, Team team1) {
     // TODO - you fill in here.
+
+    List<Player> t0=team0.players, t1=team1.players, tmp;
+    Collections.sort(t0);
+    Collections.sort(t1);
+    for(int i=0; i<t0.size() && i<t1.size(); i++)
+      if(t0.get(i).height >= t1.get(i).height)
+        return false;
     return true;
   }
   private List<Player> players;

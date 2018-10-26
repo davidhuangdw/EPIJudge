@@ -18,10 +18,42 @@ public class IntervalsUnion {
     }
   }
 
+  private static Interval buildInterval(Interval.Endpoint l, Interval.Endpoint r){
+    Interval it = new Interval();
+    it.left = l;
+    it.right = r;
+    return it;
+  }
+
   public static List<Interval> unionOfIntervals(List<Interval> intervals) {
     // TODO - you fill in here.
-    return Collections.emptyList();
+
+    Collections.sort(intervals, (t1, t2) -> lessEndpoint(t1.left, t2.left) ? -1: 1);
+
+    List<Interval> res = new ArrayList<Interval>();
+
+    int l,r;
+    Interval.Endpoint rmost, rleft, rright;
+    for(l=0; l<intervals.size();){
+      rmost = intervals.get(l).right;
+      for(r=l+1; r<intervals.size(); r++){
+        rleft = intervals.get(r).left;
+        if(rleft.val>rmost.val || (rleft.val==rmost.val && !rleft.isClosed && !rmost.isClosed))
+          break;
+        rright = intervals.get(r).right;
+        if(rright.val > rmost.val || (rright.val==rmost.val && rright.isClosed))
+          rmost = rright;
+      }
+      res.add(buildInterval(intervals.get(l).left, rmost));
+      l = r;
+    }
+    return res;
   }
+
+  private static boolean lessEndpoint(Interval.Endpoint e1, Interval.Endpoint e2){
+    return e1.val<e2.val || (e1.val==e2.val && e1.isClosed);
+  }
+
   @EpiUserType(
       ctorParams = {int.class, boolean.class, int.class, boolean.class})
   public static class FlatInterval {
