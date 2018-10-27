@@ -10,7 +10,29 @@ public class DescendantAndAncestorInBst {
                                        BstNode<Integer> possibleAncOrDesc1,
                                        BstNode<Integer> middle) {
     // TODO - you fill in here.
-    return true;
+    // todo: debug
+
+    if(possibleAncOrDesc0 == middle || possibleAncOrDesc1 == middle) return false;
+    BstNode<Integer> desc = null, i, j, anc;
+
+    for(i=j=middle; desc==null && (i!=null || j!=null);){
+      if(i==possibleAncOrDesc0)
+        desc = possibleAncOrDesc0;
+      else if(j==possibleAncOrDesc1)
+        desc = possibleAncOrDesc1;
+      else{
+        if(i != null)
+          i = possibleAncOrDesc0.data < i.data ? i.left : i.right;
+        if(j != null)
+          j = possibleAncOrDesc1.data < j.data ? j.left : j.right;
+      }
+    }
+    if(desc == null) return false;
+    anc = desc==possibleAncOrDesc0 ? possibleAncOrDesc1 : possibleAncOrDesc0;
+    while(anc != null && anc != middle)
+      anc = middle.data < anc.data ? anc.left : anc.right;
+
+    return anc == middle;
   }
   @EpiTest(testDataFile = "descendant_and_ancestor_in_bst.tsv")
   public static boolean pairIncludesAncestorAndDescendantOfMWrapper(

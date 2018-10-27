@@ -8,8 +8,8 @@ public class SortList {
     // TODO - you fill in here.
     if(L==null || L.next==null) return L;
 
-    ListNode<Integer> l=L,r=L.next;
-    for(; r!=null && r.next != null; l=l.next,r=r.next.next);
+    ListNode<Integer> l=L,r=L;//.next;
+    for(; r.next != null && r.next.next != null; l=l.next,r=r.next.next);
     r = l.next;
     l.next = null;
 

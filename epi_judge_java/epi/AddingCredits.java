@@ -3,29 +3,55 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
-import java.util.List;
+
+import java.util.*;
+
 public class AddingCredits {
 
   public static class ClientsCreditsInfo {
+    private int offset=0;
+    private Map<String, Integer> credits = new HashMap<>();
+    private NavigableMap<Integer, Set<String>> creditToClient = new TreeMap<>();
+
     public void insert(String clientID, int c) {
       // TODO - you fill in here.
-      return;
+      c -= offset;
+      Integer cr = credits.get(clientID);
+      if(cr!=null && cr.equals(c)) return;
+
+      remove(clientID);
+
+      credits.put(clientID, c);
+      if(creditToClient.get(c) == null)
+        creditToClient.put(c, new HashSet<>());
+      creditToClient.get(c).add(clientID);
     }
     public boolean remove(String clientID) {
       // TODO - you fill in here.
+      Integer credit = credits.get(clientID);
+      if(credit == null) return false;
+
+      credits.remove(clientID);
+      Set<String> set = creditToClient.get(credit);
+      set.remove(clientID);
+      if(set.isEmpty())
+        creditToClient.remove(credit);
       return true;
     }
     public int lookup(String clientID) {
       // TODO - you fill in here.
-      return 0;
+
+      Integer c = credits.get(clientID);
+      return c==null ? -1 : c+offset;
     }
     public void addAll(int C) {
       // TODO - you fill in here.
+      offset += C;
       return;
     }
     public String max() {
       // TODO - you fill in here.
-      return "";
+      return creditToClient.isEmpty() ? "" : creditToClient.lastEntry().getValue().iterator().next();
     }
     @Override
     public String toString() {
