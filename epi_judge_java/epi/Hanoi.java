@@ -3,19 +3,28 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.List;
-import java.util.LinkedList;
+
+import java.util.*;
+
 public class Hanoi {
 
   private static final int NUM_PEGS = 3;
 
   public static List<List<Integer>> computeTowerHanoi(int numRings) {
     // TODO - you fill in here.
-    return Collections.emptyList();
+    List<List<Integer>> res = new ArrayList<>();
+    search(numRings, 0, 2, res);
+    return res;
   }
+
+  private static void search(int k, int fr, int to, List<List<Integer>> res){
+    if(k == 0) return;
+    int md = 3 - fr - to;
+    search(k-1, fr, md, res);
+    res.add(Arrays.asList(fr, to));
+    search(k-1, md, to, res);
+  }
+
   @EpiTest(testDataFile = "hanoi.tsv")
   public static void computeTowerHanoiWrapper(TimedExecutor executor,
                                               int numRings) throws Exception {

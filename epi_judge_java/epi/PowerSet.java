@@ -3,6 +3,8 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiTestComparator;
 import epi.test_framework.LexicographicalListComparator;
 import epi.test_framework.GenericTest;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -11,7 +13,15 @@ public class PowerSet {
 
   public static List<List<Integer>> generatePowerSet(List<Integer> inputSet) {
     // TODO - you fill in here.
-    return null;
+    List<List<Integer>> res = new ArrayList<>();
+    for(int i=0; i<(1<<inputSet.size()); i++){
+      List<Integer> cur = new ArrayList<>();
+      for(int j=0; j<inputSet.size(); j++)
+        if((i & (1<<j)) != 0)
+          cur.add(inputSet.get(j));
+      res.add(cur);
+    }
+    return res;
   }
   @EpiTestComparator
   public static BiPredicate<List<List<Integer>>, List<List<Integer>>> comp =
