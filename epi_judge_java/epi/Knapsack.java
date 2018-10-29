@@ -20,7 +20,14 @@ public class Knapsack {
 
   public static int optimumSubjectToCapacity(List<Item> items, int capacity) {
     // TODO - you fill in here.
-    return 0;
+
+    int v[] = new int[capacity+1];
+
+    for(int i=0; i<items.size(); i++)
+      for(int j=capacity; j-items.get(i).weight>=0; j--)
+        v[j] = Math.max(v[j], v[j-items.get(i).weight]+items.get(i).value);
+
+    return v[capacity];
   }
 
   public static void main(String[] args) {

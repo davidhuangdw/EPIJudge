@@ -7,7 +7,22 @@ public class PrettyPrinting {
 
   public static int minimumMessiness(List<String> words, int lineLength) {
     // TODO - you fill in here.
-    return 0;
+
+    int n = words.size();
+    int f[] = new int[n+1];
+    f[0] = 0;
+    for(int i=1; i<=n; i++){
+      f[i] = Integer.MAX_VALUE;
+      int sum = 0;
+      for(int j=i-1; j>=0 && sum+words.get(j).length()+i-j-1 <= lineLength; j--){
+        sum += words.get(j).length();
+        int mess = lineLength-(sum+(i-j-1));
+        f[i] = Math.min(f[i], mess*mess+f[j]);
+      }
+      if(f[i] == Integer.MAX_VALUE)
+        return -1;
+    }
+    return f[n];
   }
 
   public static void main(String[] args) {

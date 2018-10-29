@@ -9,7 +9,19 @@ public class NumberOfScoreCombinations {
   numCombinationsForFinalScore(int finalScore,
                                List<Integer> individualPlayScores) {
     // TODO - you fill in here.
-    return 0;
+
+    int []comb = new int[finalScore+1];
+    comb[0] = 1;
+    for(int i=1; i<=finalScore; i++)
+      comb[i] = 0;
+
+    for(int sc: individualPlayScores){
+      for(int i=0; i+sc<=finalScore; i++)
+        if(comb[i] > 0)
+          comb[i+sc] += comb[i];
+    }
+
+    return comb[finalScore];
   }
 
   public static void main(String[] args) {
