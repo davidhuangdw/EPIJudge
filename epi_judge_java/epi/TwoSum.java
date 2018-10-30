@@ -7,7 +7,15 @@ public class TwoSum {
 
   public static boolean hasTwoSum(List<Integer> A, int t) {
     // TODO - you fill in here.
-    return true;
+
+    for(int i=0,j=A.size()-1; i<=j;)
+      if(A.get(i)+A.get(j) == t)
+        return true;
+      else if(A.get(i) + A.get(j) < t)
+        i++;
+      else
+        j--;
+    return false;
   }
 
   public static void main(String[] args) {
