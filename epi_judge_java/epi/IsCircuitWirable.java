@@ -4,7 +4,10 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 public class IsCircuitWirable {
 
   public static class GraphVertex {
@@ -14,6 +17,19 @@ public class IsCircuitWirable {
 
   public static boolean isAnyPlacementFeasible(List<GraphVertex> graph) {
     // TODO - you fill in here.
+
+    for(GraphVertex v:graph)
+      if(v.d<0 && !feasible(v, 0))
+        return false;
+    return true;
+  }
+
+  private static boolean feasible(GraphVertex v, int color){
+    if(v.d >= 0)
+      return v.d == color;
+    v.d = color;
+    for(GraphVertex to: v.edges)
+      if(!feasible(to, color^1)) return false;
     return true;
   }
   @EpiUserType(ctorParams = {int.class, int.class})

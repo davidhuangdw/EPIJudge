@@ -4,7 +4,11 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public class DeadlockDetection {
 
   public static class GraphVertex {
@@ -15,8 +19,33 @@ public class DeadlockDetection {
 
   public static boolean isDeadlocked(List<GraphVertex> graph) {
     // TODO - you fill in here.
-    return true;
+
+    Map<GraphVertex, Integer> count = new HashMap<>();
+    Map<GraphVertex, Integer> visited = new HashMap<>();
+
+    for(GraphVertex fr:graph)
+      for(GraphVertex to:fr.edges)
+        count.put(to, count.getOrDefault(to, 0)+1);
+
+    List<GraphVertex> st = graph.stream().filter(e->!count.containsKey(e)).collect(Collectors.toList());
+    if(st.size() == 0) return true;
+
+    int id=0;
+    for(GraphVertex v:st)
+      if(search(id++, v, visited)) return true;
+    return false;
   }
+
+  private static boolean search(int id, GraphVertex v, Map<GraphVertex, Integer> visited){
+    if(!visited.containsKey(v)){
+      visited.put(v, id);
+      for(GraphVertex to:v.edges)
+        if(search(id, to, visited)) return true;
+    } else if(visited.get(v) == id)
+      return true;
+    return false;
+  }
+
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class Edge {
     public int from;

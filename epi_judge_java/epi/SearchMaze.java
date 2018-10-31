@@ -40,8 +40,28 @@ public class SearchMaze {
   public static List<Coordinate> searchMaze(List<List<Color>> maze,
                                             Coordinate s, Coordinate e) {
     // TODO - you fill in here.
-    return Collections.emptyList();
+    List<Coordinate> res = new ArrayList<>();
+    search(maze, s, e, res);
+    return res;
   }
+
+  private static boolean search(List<List<Color>> maze, Coordinate s, Coordinate e, List<Coordinate> res){
+    maze.get(s.x).set(s.y, Color.BLACK);
+    res.add(s);
+    if(s.equals(e))
+      return true;
+    int di=0, dj=1;
+    for(int r=0; r<4; r++){
+      int i = s.x+di, j=s.y+dj;
+      if(0<=i && i<maze.size() && 0<=j && j<maze.get(i).size() && maze.get(i).get(j) == Color.WHITE
+          && search(maze, new Coordinate(i,j), e, res))
+          return true;
+      int tmp=di; di=dj; dj=-tmp;
+    }
+    res.remove(res.size()-1);
+    return false;
+  }
+
   public static boolean pathElementIsFeasible(List<List<Integer>> maze,
                                               Coordinate prev, Coordinate cur) {
     if (!(0 <= cur.x && cur.x < maze.size() && 0 <= cur.y &&

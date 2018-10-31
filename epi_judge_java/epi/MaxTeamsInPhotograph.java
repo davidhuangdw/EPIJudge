@@ -3,8 +3,9 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
+
 public class MaxTeamsInPhotograph {
 
   public static class GraphVertex {
@@ -15,8 +16,32 @@ public class MaxTeamsInPhotograph {
 
   public static int findLargestNumberTeams(List<GraphVertex> graph) {
     // TODO - you fill in here.
-    return 0;
+
+    Set<GraphVertex> visited = new HashSet<>();
+    Deque<GraphVertex> ordered = new LinkedList<>();
+    for(GraphVertex v:graph)
+      search(v, visited, ordered);
+
+    int res =0;
+    while(!ordered.isEmpty()){
+      GraphVertex v = ordered.pop();
+      res = Math.max(res, v.maxDistance);
+      for(GraphVertex to: v.edges)
+        to.maxDistance = Math.max(to.maxDistance, v.maxDistance+1);
+    }
+    return res+1;
   }
+
+  private static void search(GraphVertex v, Set<GraphVertex> visited, Deque<GraphVertex> ordered){
+    if(visited.contains(v)) return;
+    visited.add(v);
+
+    for(GraphVertex to: v.edges)
+      search(to, visited, ordered);
+
+    ordered.push(v);
+  }
+
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class Edge {
     public int from;

@@ -7,8 +7,18 @@ import java.util.List;
 public class MatrixConnectedRegions {
   public static void flipColor(int x, int y, List<List<Boolean>> image) {
     // TODO - you fill in here.
+
+    boolean color = image.get(x).get(y);
+    image.get(x).set(y, !color);
+    for(int s[]:SHIFT){
+      int nx=x+s[0], ny=y+s[1];
+      if(0<=nx && nx<image.size() && 0<=ny && ny<image.get(nx).size() && image.get(nx).get(ny).equals(color))
+        flipColor(nx, ny, image);
+    }
     return;
   }
+  private static int [][] SHIFT = {{0,1}, {0, -1}, {1,0}, {-1,0}};
+
   @EpiTest(testDataFile = "painting.tsv")
   public static List<List<Integer>> flipColorWrapper(TimedExecutor executor,
                                                      int x, int y,
