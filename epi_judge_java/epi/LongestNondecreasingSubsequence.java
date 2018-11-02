@@ -11,6 +11,29 @@ public class LongestNondecreasingSubsequence {
 
   public static int longestNondecreasingSubsequenceLength(List<Integer> A) {
     // TODO - you fill in here.
+    int n = A.size();
+    int minEnd[] = new int[n];
+    for(int i=0; i<n; i++)
+      minEnd[i] = Integer.MAX_VALUE;
+
+    int res = 0;
+    for(int i=0; i<n; i++){
+      int v=A.get(i), l=0, r=i-1;
+      while(l<=r){
+        int m = l+(r-l)/2;
+        if(minEnd[m] <= v)
+          l = m+1;
+        else
+          r = m-1;
+      }
+      minEnd[l] = v;
+      res = Math.max(res, l+1);
+    }
+    return res;
+  }
+
+  public static int longestNondecreasingSubsequenceLength1(List<Integer> A) {
+    // TODO - you fill in here.
 
     int n = A.size();
     Integer f[] = new Integer[n];

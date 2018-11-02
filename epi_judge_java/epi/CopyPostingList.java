@@ -12,7 +12,29 @@ public class CopyPostingList {
 
   public static PostingListNode copyPostingsList(PostingListNode l) {
     // TODO - you fill in here.
-    return null;
+    if(l== null) return l;
+
+    PostingListNode fr, copy, tmp, to;
+
+    for(fr=l; fr != null; fr=fr.next.next)
+      fr.next = new PostingListNode(fr.order, fr.next, fr.jump);
+
+    for(fr=l; fr != null; fr=fr.next.next)
+      if(fr.next.jump != null)
+        fr.next.jump = fr.next.jump.next;
+
+    //unzip
+    to = copy = new PostingListNode(0, null, null);
+
+    for(fr=l; fr != null;){
+      to.next = fr.next;
+      fr.next = fr.next.next;
+      fr = fr.next;
+      to = to.next;
+    }
+    to.next = null;
+
+    return copy.next;
   }
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class SerializedNode {
