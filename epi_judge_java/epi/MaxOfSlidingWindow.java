@@ -2,8 +2,9 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-import java.util.Collections;
-import java.util.List;
+
+import java.util.*;
+
 public class MaxOfSlidingWindow {
   @EpiUserType(ctorParams = {int.class, double.class})
 
@@ -44,7 +45,19 @@ public class MaxOfSlidingWindow {
   public static List<TrafficElement>
   computeTrafficVolumes(List<TrafficElement> A, int w) {
     // TODO - you fill in here.
-    return Collections.emptyList();
+
+    Collections.sort(A, (a,b)->a.time-b.time);
+    List<TrafficElement> res=new ArrayList<>();
+    Deque<TrafficElement> que = new LinkedList<>();
+    for(int i=0; i<A.size(); i++){
+      while(!que.isEmpty() && que.getLast().time+w<A.get(i).time)
+        que.removeLast();
+      while(!que.isEmpty() && que.peek().volume<=A.get(i).volume)
+        que.pop();
+      que.push(A.get(i));
+      res.add(new TrafficElement(A.get(i).time, que.getLast().volume));
+    }
+    return res;
   }
 
   public static void main(String[] args) {
