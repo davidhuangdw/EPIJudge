@@ -7,7 +7,14 @@ public class MaxSumSubarray {
 
   public static int findMaximumSubarray(List<Integer> A) {
     // TODO - you fill in here.
-    return -1;
+    int res = 0;
+    int min = 0, sum=0;
+    for(int v:A){
+      sum += v;
+      res = Math.max(res, sum - min);
+      min = Math.min(min, sum);
+    }
+    return res;
   }
 
   public static void main(String[] args) {

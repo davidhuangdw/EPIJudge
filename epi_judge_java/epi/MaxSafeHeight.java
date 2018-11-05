@@ -6,7 +6,13 @@ public class MaxSafeHeight {
 
   public static int getHeight(int cases, int drops) {
     // TODO - you fill in here.
-    return 0;
+
+    int cnt[] = new int[cases+1];
+
+    for(int d=1; d<=drops; d++)
+      for(int c=cases; c>=1; c--)
+        cnt[c] += 1+cnt[c-1];
+    return cnt[cases];
   }
 
   public static void main(String[] args) {

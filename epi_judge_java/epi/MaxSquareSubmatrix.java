@@ -8,7 +8,21 @@ public class MaxSquareSubmatrix {
 
   public static int maxSquareSubmatrix(List<List<Boolean>> A) {
     // TODO - you fill in here.
-    return 0;
+
+    int m=A.get(0).size();
+    int res = 0;
+    int cur[] = new int [m];
+
+    for(int i=0; i<A.size(); i++)
+      for(int j=0; j<m; j++)
+        if(A.get(i).get(j)){
+          int h = Math.min(cur[j], j-1>=0 ? cur[j-1] : 0);
+          cur[j] = h + (A.get(i-h).get(j-h) ? 1:0);
+          res = Math.max(res, cur[j]);
+        }else
+          cur[j] = 0;
+
+    return res*res;
   }
 
   public static void main(String[] args) {

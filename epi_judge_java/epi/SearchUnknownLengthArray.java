@@ -7,7 +7,30 @@ public class SearchUnknownLengthArray {
 
   public static int binarySearchUnknownLength(List<Integer> A, int k) {
     // TODO - you fill in here.
-    return 0;
+
+    //find size
+    int l=0, r=1;
+    while(true){
+      try{
+         A.get(r-1);
+      }catch (IndexOutOfBoundsException e){
+        break;
+      }
+      r <<= 1;
+    }
+
+    r -= 2;
+    while(l<=r){
+      int m = l + (r-l)/2;
+      try{
+        if(A.get(m) == k) return m;
+        else if(A.get(m) < k) l = m+1;
+        else r = m-1;
+      }catch (IndexOutOfBoundsException e){
+        r=m-1;
+      }
+    }
+    return -1;
   }
 
   public static void main(String[] args) {

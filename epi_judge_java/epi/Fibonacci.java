@@ -7,7 +7,11 @@ public class Fibonacci {
 
   public static int fibonacci(int n) {
     // TODO - you fill in here.
-    return -1;
+    int v[] = new int [2];
+    v[1] = 1;
+    for(int i=2; i<=n; i++)
+      v[i&1] = v[0]+v[1];
+    return v[n&1];
   }
 
   public static void main(String[] args) {
